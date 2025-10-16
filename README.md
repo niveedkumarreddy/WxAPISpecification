@@ -56,24 +56,26 @@ Downloads are triggered entirely in-memory using JavaScript fetch() (no page rel
 
 Responsive and modern look with subtle hover effects.
 
-Auto-refresh every 60 seconds (meta refresh).
+Auto-refresh every 600 seconds (meta refresh).
 
 ⚙️ How It Works
 
 DSP Data Invocation
 
-%invoke dummy:getAPISpec%
+%invoke WxAPISpecification.v1.services:getAPISpec%
 
 
 Returns a list named apiDetailsList with:
 
-packageName
+## API Details Table
 
-apiName
+| **Field Name** | **Description** |
+|----------------|------------------|
+| `packageName`  | Name of the Integration Server package that contains the API. |
+| `apiName`      | Name of the API service extracted from the full API identifier. |
+| `type`         | Type of the API — can be `Swagger`, `WSDL`, or `OpenAPI`. |
+| `Download Link`  | Download URL pointing to the Swagger/OpenAPI/WSDL definition of the API. |
 
-type
-
-endpointUrl
 
 Rendering Logic
 
@@ -106,7 +108,7 @@ Error Handling	Alerts user if a download fails or network error occurs.
 UI Behavior	Simple styling with hover states and rounded cards.
 📁 Expected Backend Output
 
-Example output from the backend service (dummy:getAPISpec):
+Example output from the backend service (WxAPISpecification.v1.services:getAPISpec):
 
 {
   "apiDetailsList": [
@@ -143,7 +145,7 @@ Packages → Management → Reload Package
 
 Access the Page
 
-http://<server>:5555/MyPackage/pub/apiSpecs.dsp
+http://server:port/MyPackage/apiSpecs.dsp
 
 
 Use the UI
@@ -154,66 +156,20 @@ Click Download to retrieve the file.
 
 Click Clear Filters to reset view.
 
+
 🔍 Troubleshooting
 Issue	Possible Cause / Fix
 Table is empty	Backend service not returning apiDetailsList.
 Download fails	Check endpoint URL and permissions.
 Wrong file extension	Verify the type field (swagger/openapi/wsdl) matches actual service type.
 “Auth fail”	Check Integration Server alias or credentials (not DSP-related).
+
 🧱 Tech Stack
 Component	Description
 DSP	For dynamic server-side rendering
 JavaScript (Vanilla)	Filtering, event handling, and downloads
 HTML5 + CSS3	Structure and styling
 Integration Server	Backend platform for DSP execution
-🧰 Developer Notes
-🔹 Extending Filters
-
-To add a new dropdown (e.g., Environment or Version):
-
-Add a new <label><select> element in HTML.
-
-Add a new Set() in the JavaScript section to collect unique values.
-
-Update the filterTable() function to include your new condition.
-
-🔹 Modifying Auto-Download Logic
-
-File download logic is based on type detection:
-
-if (type.toLowerCase().includes('swagger')) { ... }
-
-
-If new API types (like “RAML” or “GraphQL”) are introduced, extend this section with appropriate query parameter and file extension handling.
-
-🔹 Debugging Data Issues
-
-To inspect dynamic data:
-
-console.log(tr.getAttribute('data-package'), tr.getAttribute('data-api'), tr.getAttribute('data-type'));
-
-
-Use the browser console (F12 → Console tab) to check what data is rendered.
-
-🔹 Refresh Control
-
-The line:
-
-<meta http-equiv="refresh" content="600">
-
-
-automatically refreshes the page every 60 seconds.
-You can remove or adjust this as needed.
-
-🔹 Styling Adjustments
-
-Modify the <style> section for:
-
-Table layout (column width, color, etc.)
-
-Hover animations
-
-Font scaling
 
 🏁 Summary
 
