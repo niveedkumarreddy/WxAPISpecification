@@ -127,6 +127,16 @@ Example output from the backend service (WxAPISpecification.v1.services:getAPISp
   ]
 }
 
+---
+
+## Supported Versions
+
+This DSP page has been tested and verified to work with **Software AG Integration Server 10.15 and above**.
+
+- ✅ **Supported:** 10.15, 11.x   
+- 🚫 **Not supported:** Versions below 10.15
+
+---
 🧩 How to Deploy
 
 Place the DSP File
