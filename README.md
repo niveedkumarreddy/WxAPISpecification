@@ -8,17 +8,17 @@ flowchart TD
     A[webMethods Integration Server] -->|invoke| B[WxAPISpecification.v1.services:getAPISpec]
     B -->|returns apiDetailsList| C["DSP Page: apiSpecs.dsp"]
     C -->|renders table & filters| D[Web Browser UI]
-    D -->|user clicks Download| E[Fetch API Request]
-    E -->|returns swagger/wsdl/openapi file| F[File Saved Locally]
+    D -->|user clicks Download/View| E[Fetch API Request]
+    E -->|returns swagger/wsdl/openapi file| F[Modal Preview or Local Download]
 
 ```
 
 📘 README.md – API Specifications DSP Page
 🧩 Overview
 
-This DSP (Dynamic Server Page) provides a simple yet powerful UI to view, search, and download API specifications (Swagger, OpenAPI, WSDL) hosted on webMethods Integration Server.
+This DSP (Dynamic Server Page) provides a clean, responsive, and dynamic UI to view, search, copy, and download API specifications (Swagger, OpenAPI, WSDL) directly from webMethods Integration Server.
 
-It dynamically lists APIs by Package, API Name, and Type, supports multi-level filtering, and enables downloading specifications directly in the correct format.
+It lists APIs dynamically by Package, API Name, and Type, supports advanced filtering, and enables in-browser preview and downloads with the correct file formats.
 
 🚀 Features
 
@@ -26,19 +26,17 @@ It dynamically lists APIs by Package, API Name, and Type, supports multi-level f
 
 Fetches API details dynamically from %invoke WxAPISpecification.v1.services:getAPISpec%.
 
-Populates the table with package, API name, type, and endpoint link.
+Populates the table with package, API name, type, Download and view.
 
 ✅ Smart Filtering
 
-Dropdown filters for Package, API Name, and Type.
+Dropdown filters for Package, API Name, and Type
 
-Global search box filters across Package and API Name.
+A Global Search box filters across Package Name and API Name
 
-All filters work together dynamically.
+A Clear Filters button resets all dropdowns and search terms instantly
 
-✅ Clear Filters
-
-“Clear Filters” button resets all filters and restores the full table instantly.
+All filters work together dynamically and case-insensitively
 
 ✅ Smart Downloads
 
@@ -52,11 +50,35 @@ WSDL → ?wsdl → *.wsdl
 
 Downloads are triggered entirely in-memory using JavaScript fetch() (no page reload).
 
-✅ Clean UI
+👁️ View API Specification (Modal Preview)
 
-Responsive and modern look with subtle hover effects.
+Clicking “View” opens a responsive modal showing the full API specification (Swagger JSON / OpenAPI / WSDL).
 
-Auto-refresh every 600 seconds (meta refresh).
+Automatically fetches and pretty-prints content inside the modal.
+
+Works for all API types (swagger, openapi, wsdl).
+
+📋 Copy to Clipboard
+
+Inside the modal, a “Copy to Clipboard” button copies the API specification content as plain text.
+
+Useful for sharing API definitions or debugging.
+
+⬇️ Download
+
+The “Download" button allows users to download the same file they are currently previewing.
+
+Uses the same smart type detection and naming convention as standard downloads.
+
+🎨 Clean UI & Behavior
+
+Responsive layout that fits the screen
+
+Hover highlights and consistent spacing
+
+Auto-refresh every 600 seconds (via meta refresh)
+
+Subtle modal animations and buttons for better UX
 
 ⚙️ How It Works
 
@@ -74,7 +96,8 @@ Returns a list named apiDetailsList with:
 | `packageName`  | Name of the Integration Server package that contains the API. |
 | `apiName`      | Name of the API service extracted from the full API identifier. |
 | `type`         | Type of the API — can be `Swagger`, `WSDL`, or `OpenAPI`. |
-| `Download Link`  | Download URL pointing to the Swagger/OpenAPI/WSDL definition of the API. |
+| `Download`     | Download URL pointing to the Swagger/OpenAPI/WSDL definition of the API. |
+| `View`         | View pointing to the Swagger/OpenAPI/WSDL definition of the API. |
 
 
 Rendering Logic
@@ -100,12 +123,17 @@ On clicking “Download,” a file is fetched and saved locally using the correc
 Handles different endpoint variations automatically.
 
 🧠 Key Implementation Points
-Area	Description
-Dynamic Content	Uses DSP server-side tags to loop through API data.
-JavaScript Filtering	Efficient client-side filtering (no reloading).
-Type Detection	Identifies Swagger/OpenAPI/WSDL and sets correct download format.
-Error Handling	Alerts user if a download fails or network error occurs.
-UI Behavior	Simple styling with hover states and rounded cards.
+| **Area** | **Description** |
+|----------------|------------------|
+| `packageName`  			| Name of the Integration Server package that contains the API. |
+| `Dynamic Content`  		| 	Uses DSP tags to render API rows dynamically
+| `JavaScript Filtering`  	| 	Lightweight, client-side search and filter
+| `Type Detection`  		| 	Automatically identifies swagger, openapi, or wsdl
+| `Modal Preview`  			| 	Fetches and displays content inline without leaving the page
+| `Copy & Download`  		| 	Provides both copy and save options from modal
+| `Error Handling`  		| 	Alerts users for fetch or network errors
+| `UI Styling`  			| 	Clean, responsive layout with subtle effects
+
 📁 Expected Backend Output
 
 Example output from the backend service (WxAPISpecification.v1.services:getAPISpec):
@@ -168,18 +196,22 @@ Click Clear Filters to reset view.
 
 
 🔍 Troubleshooting
-Issue	Possible Cause / Fix
-Table is empty	Backend service not returning apiDetailsList.
-Download fails	Check endpoint URL and permissions.
-Wrong file extension	Verify the type field (swagger/openapi/wsdl) matches actual service type.
-“Auth fail”	Check Integration Server alias or credentials (not DSP-related).
+| Issue                | Possible Cause / Fix                                                                  |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| Table is empty       | Backend service not returning `apiDetailsList`.                                       |
+| Download fails       | Check endpoint URL and permissions.                                                   |
+| Wrong file extension | Verify the `type` field (`swagger`/`openapi`/`wsdl`) matches the actual service type. |
+| “Auth fail”          | Check Integration Server alias or credentials (not DSP-related).                      |
+
 
 🧱 Tech Stack
-Component	Description
-DSP	For dynamic server-side rendering
-JavaScript (Vanilla)	Filtering, event handling, and downloads
-HTML5 + CSS3	Structure and styling
-Integration Server	Backend platform for DSP execution
+| **Component**            | **Description**                          |
+| ------------------------ | ---------------------------------------- |
+| **DSP**                  | For dynamic server-side rendering        |
+| **JavaScript (Vanilla)** | Filtering, event handling, and downloads |
+| **HTML5 + CSS3**         | Structure, layout, and modal UI          |
+| **Integration Server**   | Backend platform for DSP execution       |
+
 
 🏁 Summary
 
