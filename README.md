@@ -173,6 +173,12 @@ Copy the .dsp file into your package’s pub directory:
 
 IntegrationServer/packages/MyPackage/pub/apiSpecs.dsp
 
+Add below Global Variables
+| **Name**           | **Value**                                                    | **Description**                                                |
+|-------------------|-------------------------------------------------------------|----------------------------------------------------------------|
+| `hostAddress`     | `http://localhost:5555`                                     | HostName/IP address of the Integration Server.                |
+| `pkgToSkipRegex`  | ``^(Wm\|Wx\|Svg\|Abc\|Default\|PackageName).*``           | Name of the Integration Server Package or Prefix to skip.     |
+
 
 Reload or Restart Package
 
