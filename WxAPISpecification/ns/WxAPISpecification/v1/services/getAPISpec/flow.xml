@@ -1562,6 +1562,16 @@
 
   <!-- nodes -->
 
+<BRANCH TIMEOUT="" SWITCH="/packages/api/endpointUrl">
+  <COMMENT></COMMENT>
+
+  <!-- nodes -->
+
+<SEQUENCE NAME="/^(?!\s*$).+/" TIMEOUT="" EXIT-ON="FAILURE">
+  <COMMENT></COMMENT>
+
+  <!-- nodes -->
+
 <BRANCH TIMEOUT="" SWITCH="/packages/api/type">
   <COMMENT></COMMENT>
 
@@ -3563,6 +3573,8 @@
 <MAPDELETE FIELD="/indexOfUrl;1;0">
 </MAPDELETE>
 </MAP>
+</SEQUENCE>
+</BRANCH>
 </LOOP>
 </SEQUENCE>
 </BRANCH>

@@ -3910,7 +3910,7 @@
 </INVOKE>
 
 <MAP TIMEOUT="" MODE="STANDALONE">
-  <COMMENT></COMMENT>
+  <COMMENT>-- drop variables --</COMMENT>
   <MAPTARGET>
 
 <Values version="2.0">
